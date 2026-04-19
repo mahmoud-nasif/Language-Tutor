@@ -121,13 +121,21 @@ def _overall_scores(
     word_alignment: list[WordAlignmentItem], phoneme_alignment: AlignmentResult
 ) -> OverallScores:
     total_words = max(1, len([item for item in word_alignment if item.expected]))
-    word_errors = len([item for item in word_alignment if item.type != "match"])
+    word_errors = len(
+        [
+            item
+            for item in word_alignment
+            if item.expected and item.type in {"substitution", "omission"}
+        ]
+    )
     word_error_rate = round(word_errors / total_words, 4)
 
     total_phonemes = max(
         1, len([token for token in phoneme_alignment.expected_aligned if token != "-"])
     )
-    phoneme_errors = len([op for op in phoneme_alignment.operations if op != "match"])
+    phoneme_errors = len(
+        [op for op in phoneme_alignment.operations if op in {"substitute", "delete"}]
+    )
     phoneme_error_rate = round(phoneme_errors / total_phonemes, 4)
 
     intelligibility = max(
