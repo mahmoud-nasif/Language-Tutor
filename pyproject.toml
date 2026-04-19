@@ -21,6 +21,7 @@ dependencies = [
   "numpy~=1.26.0",
   "soundfile~=0.12.1",
   "phonemizer~=3.3.0",
+  "num2words~=0.5.14",
   "python-multipart~=0.0.9",
   "torch==2.4.1+cu124",
   "torchaudio==2.4.1+cu124",

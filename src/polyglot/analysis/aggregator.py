@@ -1,5 +1,6 @@
 """Deterministic aggregation from model outputs to report schema."""
 
+from collections import defaultdict, deque
 from difflib import SequenceMatcher
 
 from polyglot.analysis.alignment import AlignmentResult
@@ -13,20 +14,45 @@ from polyglot.analysis.models import (
     PhonemeError,
     WordAlignmentItem,
 )
+from polyglot.analysis.text_normalize import normalize_for_alignment
+
+
+def _build_ipa_lookup(
+    g2p_result: G2PResult, language: LanguageCode
+) -> dict[str, deque[str]]:
+    lookup: dict[str, deque[str]] = defaultdict(deque)
+    for item in g2p_result.words:
+        normalized_tokens = [
+            token for token in normalize_for_alignment(item.word, language).split() if token
+        ]
+        for token in normalized_tokens:
+            lookup[token].append(item.ipa)
+    return lookup
+
+
+def _consume_ipa(lookup: dict[str, deque[str]], token: str) -> str:
+    if token and token in lookup and lookup[token]:
+        return lookup[token].popleft()
+    return ""
 
 
 def _word_alignment_items(
     target: str,
     transcribed: str,
+    language: LanguageCode,
     asr_result: ASRResult,
     target_g2p: G2PResult,
     transcript_g2p: G2PResult,
 ) -> list[WordAlignmentItem]:
-    expected_words = [token for token in target.split() if token]
-    actual_words = [token for token in transcribed.split() if token]
+    expected_words = [
+        token for token in normalize_for_alignment(target, language).split() if token
+    ]
+    actual_words = [
+        token for token in normalize_for_alignment(transcribed, language).split() if token
+    ]
 
-    expected_ipa_map = {item.word: item.ipa for item in target_g2p.words}
-    actual_ipa_map = {item.word: item.ipa for item in transcript_g2p.words}
+    expected_ipa_lookup = _build_ipa_lookup(target_g2p, language)
+    actual_ipa_lookup = _build_ipa_lookup(transcript_g2p, language)
 
     matcher = SequenceMatcher(a=expected_words, b=actual_words)
     items: list[WordAlignmentItem] = []
@@ -37,6 +63,8 @@ def _word_alignment_items(
             for offset in range(i2 - i1):
                 expected_word = expected_words[i1 + offset]
                 actual_word = actual_words[j1 + offset]
+                _consume_ipa(expected_ipa_lookup, expected_word)
+                _consume_ipa(actual_ipa_lookup, actual_word)
                 timing = (
                     asr_result.words[actual_word_cursor]
                     if actual_word_cursor < len(asr_result.words)
@@ -65,8 +93,8 @@ def _word_alignment_items(
                 if actual_word:
                     actual_word_cursor += 1
 
-                expected_ipa = expected_ipa_map.get(expected_word, "")
-                actual_ipa = actual_ipa_map.get(actual_word, "")
+                expected_ipa = _consume_ipa(expected_ipa_lookup, expected_word)
+                actual_ipa = _consume_ipa(actual_ipa_lookup, actual_word)
                 phoneme_errors: list[PhonemeError] = []
                 if expected_ipa and actual_ipa and expected_ipa != actual_ipa:
                     phoneme_errors.append(
@@ -94,10 +122,12 @@ def _word_alignment_items(
         elif tag == "delete":
             for offset in range(i2 - i1):
                 expected_word = expected_words[i1 + offset]
+                _consume_ipa(expected_ipa_lookup, expected_word)
                 items.append(WordAlignmentItem(expected=expected_word, got="", type="omission"))
         elif tag == "insert":
             for offset in range(j2 - j1):
                 actual_word = actual_words[j1 + offset]
+                _consume_ipa(actual_ipa_lookup, actual_word)
                 timing = (
                     asr_result.words[actual_word_cursor]
                     if actual_word_cursor < len(asr_result.words)
@@ -162,6 +192,7 @@ def build_report(
     word_alignment = _word_alignment_items(
         target=target_sentence,
         transcribed=asr_result.text,
+        language=language,
         asr_result=asr_result,
         target_g2p=target_g2p,
         transcript_g2p=transcript_g2p,
