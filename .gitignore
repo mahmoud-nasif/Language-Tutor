@@ -1,0 +1,38 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+.python-version
+.venv/
+
+# Tool caches
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.import_linter_cache/
+.coverage
+htmlcov/
+
+# Environment files
+.env
+.env.local
+
+# OS/editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Docker and runtime artifacts
+*.log
+data/
+*.sqlite
+*.sqlite3
+
+# Model and ML caches
+.huggingface/
+.cache/huggingface/
+.cache/torch/
+models/
