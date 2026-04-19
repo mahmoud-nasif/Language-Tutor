@@ -17,6 +17,7 @@ class WhisperXASRService:
         self._model_name = model_name
         self._device = device
         self._model = None
+        self._align_models: dict[str, tuple[object, dict]] = {}
 
     def _ensure_model(self):
         if self._model is not None:
@@ -35,6 +36,53 @@ class WhisperXASRService:
         )
         return self._model
 
+    def _ensure_align_model(self, language: LanguageCode) -> tuple[object, dict]:
+        language_code = WHISPER_LANGUAGE_MAP[language]
+        if language_code in self._align_models:
+            return self._align_models[language_code]
+
+        try:
+            import whisperx
+        except ModuleNotFoundError as exc:  # pragma: no cover - dependency gate
+            raise DependencyUnavailableError("whisperx is not installed.") from exc
+
+        align_model, metadata = whisperx.load_align_model(
+            language_code=language_code,
+            device=self._device,
+        )
+        self._align_models[language_code] = (align_model, metadata)
+        return align_model, metadata
+
+    def _align_segments_with_words(
+        self,
+        segments: list[dict],
+        audio: AudioSample,
+        language: LanguageCode,
+    ) -> list[dict]:
+        if not segments:
+            return segments
+
+        try:
+            import whisperx
+
+            align_model, metadata = self._ensure_align_model(language)
+            aligned = whisperx.align(
+                transcript=segments,
+                model=align_model,
+                align_model_metadata=metadata,
+                audio=audio.pcm16khz_mono,
+                device=self._device,
+                return_char_alignments=False,
+            )
+            aligned_segments = aligned.get("segments", segments)
+            if isinstance(aligned_segments, list):
+                return aligned_segments
+        except Exception:
+            # Alignment is a best-effort enhancement for timing quality.
+            return segments
+
+        return segments
+
     def transcribe(self, audio: AudioSample, language: LanguageCode) -> ASRResult:
         """Run ASR and emit transcript plus normalized word timings."""
         model = self._ensure_model()
@@ -42,6 +90,8 @@ class WhisperXASRService:
             audio.pcm16khz_mono, language=WHISPER_LANGUAGE_MAP[language]
         )
         segments = transcription.get("segments", [])
+        if any(not segment.get("words") for segment in segments):
+            segments = self._align_segments_with_words(segments, audio, language)
         transcript_text = str(transcription.get("text", "")).strip()
         if not transcript_text:
             # whisperx 3.x may only return segment-level text from the ASR pass.
