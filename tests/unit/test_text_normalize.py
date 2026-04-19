@@ -23,3 +23,10 @@ def test_normalize_for_alignment_preserves_contractions() -> None:
     text = "I've been living here for 3 years."
 
     assert normalize_for_alignment(text, "en-US") == "i've been living here for three years"
+
+
+def test_de03_expected_target_phrase_normalizes_to_reference_prefix() -> None:
+    target = "Ich wohne seit drei Jahren in Hamburg."
+    normalized = normalize_for_alignment(target, "de-DE")
+
+    assert normalized.startswith("ich wohne seit")
