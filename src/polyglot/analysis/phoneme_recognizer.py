@@ -7,10 +7,7 @@ from polyglot.analysis.errors import DependencyUnavailableError
 from polyglot.analysis.ipa_mapping import canonicalize_recognized_phonemes
 from polyglot.analysis.models import LanguageCode, PhonemeRecognitionResult
 
-MODEL_BY_LANGUAGE: dict[LanguageCode, str] = {
-    "en-US": "facebook/wav2vec2-lv-60-espeak-cv-ft",
-    "de-DE": "facebook/wav2vec2-large-xlsr-53-german",
-}
+PHONEME_MODEL_ID = "facebook/wav2vec2-lv-60-espeak-cv-ft"
 
 
 class Wav2Vec2PhonemeService:
@@ -18,12 +15,13 @@ class Wav2Vec2PhonemeService:
 
     def __init__(self, device: str = "cuda") -> None:
         self._device = device
-        self._processor_by_language: dict[LanguageCode, Any] = {}
-        self._model_by_language: dict[LanguageCode, Any] = {}
+        self._processor: Any = None
+        self._model: Any = None
 
     def _ensure_model(self, language: LanguageCode) -> tuple[Any, Any]:
-        if language in self._processor_by_language and language in self._model_by_language:
-            return self._processor_by_language[language], self._model_by_language[language]
+        del language
+        if self._processor is not None and self._model is not None:
+            return self._processor, self._model
 
         try:
             import torch
@@ -33,16 +31,15 @@ class Wav2Vec2PhonemeService:
                 "transformers/torch dependencies are not installed."
             ) from exc
 
-        model_id = MODEL_BY_LANGUAGE[language]
-        processor = AutoProcessor.from_pretrained(model_id)
-        model = AutoModelForCTC.from_pretrained(model_id)
+        processor = AutoProcessor.from_pretrained(PHONEME_MODEL_ID)
+        model = AutoModelForCTC.from_pretrained(PHONEME_MODEL_ID)
 
         if self._device != "cpu" and torch.cuda.is_available():
             model = model.to("cuda")
 
         model.eval()
-        self._processor_by_language[language] = processor
-        self._model_by_language[language] = model
+        self._processor = processor
+        self._model = model
         return processor, model
 
     def recognize(self, audio: AudioSample, language: LanguageCode) -> PhonemeRecognitionResult:

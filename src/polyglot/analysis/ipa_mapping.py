@@ -62,11 +62,33 @@ IPA_TO_CANONICAL: dict[str, str] = {
     "ɔ": "o",
     "ɑ": "a",
     "æ": "a",
+    "ɜ": "er",
+    "ɚ": "er",
     "y": "ue",
     "ʏ": "ue",
     "ç": "ich",
     "x": "ach",
 }
+
+CANONICAL_UNITS = (
+    "theta",
+    "schwa",
+    "tsh",
+    "dzh",
+    "eth",
+    "ich",
+    "ach",
+    "oe",
+    "ue",
+    "zh",
+    "sh",
+    "ng",
+    "ai",
+    "au",
+    "oi",
+    "ei",
+    "er",
+)
 
 _TOKEN_SPLIT_RE = re.compile(r"[\s|,;/]+")
 
@@ -93,10 +115,36 @@ def _canonicalize_token(raw_token: str) -> str:
     return token
 
 
+def _expand_canonical_token(token: str) -> list[str]:
+    compact = re.sub(r"[^a-z?]", "", token.lower())
+    if not compact:
+        return []
+
+    expanded: list[str] = []
+    idx = 0
+    while idx < len(compact):
+        matched = None
+        for unit in CANONICAL_UNITS:
+            if compact.startswith(unit, idx):
+                matched = unit
+                break
+
+        if matched is not None:
+            expanded.append(matched)
+            idx += len(matched)
+        else:
+            expanded.append(compact[idx])
+            idx += 1
+
+    return expanded
+
+
 def canonicalize_expected_ipa(ipa_text: str, language: LanguageCode) -> str:
     """Normalize phonemizer IPA output into canonical alignment tokens."""
     del language
-    tokens = [_canonicalize_token(token) for token in _split_tokens(ipa_text)]
+    tokens: list[str] = []
+    for token in _split_tokens(ipa_text):
+        tokens.extend(_expand_canonical_token(_canonicalize_token(token)))
     return " ".join(token for token in tokens if token)
 
 
@@ -105,16 +153,14 @@ def canonicalize_recognized_phonemes(raw_text: str, language: LanguageCode) -> s
     tokens = _split_tokens(raw_text)
     canonical_tokens: list[str] = []
 
-    if language == "en-US":
-        for token in tokens:
-            mapped = ESPEAK_TOKEN_TO_IPA.get(token, ESPEAK_TOKEN_TO_IPA.get(token.upper(), token))
-            canonical_tokens.append(_canonicalize_token(mapped))
-    else:
-        for token in tokens:
-            mapped = GERMAN_MODEL_TOKEN_TO_IPA.get(
-                token, GERMAN_MODEL_TOKEN_TO_IPA.get(token.upper(), token)
-            )
-            canonical_tokens.append(_canonicalize_token(mapped))
+    for token in tokens:
+        mapped = ESPEAK_TOKEN_TO_IPA.get(token, token)
+
+        # Backward compatibility for legacy german-only model tokens.
+        if mapped == token and language == "de-DE":
+            mapped = GERMAN_MODEL_TOKEN_TO_IPA.get(token, token)
+
+        canonical_tokens.extend(_expand_canonical_token(_canonicalize_token(mapped)))
 
     return " ".join(token for token in canonical_tokens if token)
 
