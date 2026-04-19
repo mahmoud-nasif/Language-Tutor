@@ -1,5 +1,7 @@
 """G2P conversion using phonemizer with espeak-ng backend."""
 
+import re
+
 from polyglot.analysis.ipa_mapping import canonicalize_expected_ipa
 from polyglot.analysis.models import G2PResult, G2PWordResult, LanguageCode
 
@@ -14,7 +16,12 @@ class PhonemizerG2PService:
 
     def convert(self, sentence: str, language: LanguageCode) -> G2PResult:
         """Produce per-word IPA for a sentence."""
-        tokens = [token for token in sentence.strip().split() if token]
+        tokens: list[str] = []
+        for token in sentence.strip().split():
+            # Strip sentence punctuation while preserving internal apostrophes.
+            cleaned = re.sub(r"^[^\w']+|[^\w']+$", "", token, flags=re.UNICODE)
+            if cleaned:
+                tokens.append(cleaned)
         if not tokens:
             return G2PResult(sentence=sentence, words=[])
 
@@ -31,7 +38,10 @@ class PhonemizerG2PService:
         )
 
         words = [
-            G2PWordResult(word=word, ipa=canonicalize_expected_ipa(ipa, language))
+            G2PWordResult(
+                word=word,
+                ipa=canonicalize_expected_ipa(ipa, language, source_word=word),
+            )
             for word, ipa in zip(tokens, ipa_tokens, strict=False)
         ]
         return G2PResult(sentence=sentence, words=words)
