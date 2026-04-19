@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "target": "Rote Rosen",
+  "language": "de-DE",
+  "transcribed": "Rote Rosen",
+  "word_alignment": [
+    {
+      "expected": "Rote",
+      "got": "Rote",
+      "type": "substitution",
+      "start_ms": 180,
+      "end_ms": 420,
+      "expected_ipa": "r o t e",
+      "actual_ipa": "R o t e",
+      "phoneme_errors": [
+        {
+          "expected": "r",
+          "got": "R",
+          "category": "rhotic_variant"
+        }
+      ]
+    }
+  ],
+  "fluency": {
+    "duration_ms": 1500,
+    "speech_rate_wpm": 80.0,
+    "long_pauses_ms": [],
+    "filler_count": 0
+  },
+  "overall": {
+    "word_error_rate": 0.0,
+    "phoneme_error_rate": 0.09,
+    "intelligibility_score": 0.96
+  }
+}

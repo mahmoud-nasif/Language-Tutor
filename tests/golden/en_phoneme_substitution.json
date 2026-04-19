@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "target": "Think about this theory",
+  "language": "en-US",
+  "transcribed": "Think about this theory",
+  "word_alignment": [
+    {
+      "expected": "Think",
+      "got": "Think",
+      "type": "substitution",
+      "start_ms": 140,
+      "end_ms": 360,
+      "expected_ipa": "theta ih ng k",
+      "actual_ipa": "t ih ng k",
+      "phoneme_errors": [
+        {
+          "expected": "theta",
+          "got": "t",
+          "category": "dental_fricative_stopping"
+        }
+      ]
+    }
+  ],
+  "fluency": {
+    "duration_ms": 1700,
+    "speech_rate_wpm": 141.18,
+    "long_pauses_ms": [],
+    "filler_count": 0
+  },
+  "overall": {
+    "word_error_rate": 0.0,
+    "phoneme_error_rate": 0.12,
+    "intelligibility_score": 0.95
+  }
+}

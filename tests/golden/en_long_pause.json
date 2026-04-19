@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "target": "I usually walk to work",
+  "language": "en-US",
+  "transcribed": "I usually walk to work",
+  "word_alignment": [
+    {
+      "expected": "usually",
+      "got": "usually",
+      "type": "match",
+      "start_ms": 200,
+      "end_ms": 520,
+      "expected_ipa": null,
+      "actual_ipa": null,
+      "phoneme_errors": []
+    }
+  ],
+  "fluency": {
+    "duration_ms": 2200,
+    "speech_rate_wpm": 109.09,
+    "long_pauses_ms": [
+      860
+    ],
+    "filler_count": 0
+  },
+  "overall": {
+    "word_error_rate": 0.0,
+    "phoneme_error_rate": 0.0,
+    "intelligibility_score": 1.0
+  }
+}

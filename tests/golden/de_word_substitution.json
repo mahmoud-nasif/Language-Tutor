@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "target": "Ich wohne in Hamburg",
+  "language": "de-DE",
+  "transcribed": "Ich wohne in Homburg",
+  "word_alignment": [
+    {
+      "expected": "Hamburg",
+      "got": "Homburg",
+      "type": "substitution",
+      "start_ms": 780,
+      "end_ms": 1080,
+      "expected_ipa": "h a m b u r k",
+      "actual_ipa": "h o m b u r k",
+      "phoneme_errors": [
+        {
+          "expected": "a",
+          "got": "o",
+          "category": "vowel_shift"
+        }
+      ]
+    }
+  ],
+  "fluency": {
+    "duration_ms": 1700,
+    "speech_rate_wpm": 141.18,
+    "long_pauses_ms": [],
+    "filler_count": 0
+  },
+  "overall": {
+    "word_error_rate": 0.25,
+    "phoneme_error_rate": 0.08,
+    "intelligibility_score": 0.82
+  }
+}

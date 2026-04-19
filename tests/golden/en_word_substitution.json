@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "target": "I've been living here for three years",
+  "language": "en-US",
+  "transcribed": "I been living here for tree years",
+  "word_alignment": [
+    {
+      "expected": "I've",
+      "got": "I",
+      "type": "substitution",
+      "start_ms": 120,
+      "end_ms": 260,
+      "expected_ipa": "ayv",
+      "actual_ipa": "ay",
+      "phoneme_errors": [
+        {
+          "expected": "v",
+          "got": "-",
+          "category": "substitution"
+        }
+      ]
+    },
+    {
+      "expected": "three",
+      "got": "tree",
+      "type": "substitution",
+      "start_ms": 900,
+      "end_ms": 1100,
+      "expected_ipa": "theta r iy",
+      "actual_ipa": "t r iy",
+      "phoneme_errors": [
+        {
+          "expected": "theta",
+          "got": "t",
+          "category": "dental_fricative_stopping"
+        }
+      ]
+    }
+  ],
+  "fluency": {
+    "duration_ms": 1850,
+    "speech_rate_wpm": 150.0,
+    "long_pauses_ms": [],
+    "filler_count": 0
+  },
+  "overall": {
+    "word_error_rate": 0.28,
+    "phoneme_error_rate": 0.1,
+    "intelligibility_score": 0.79
+  }
+}

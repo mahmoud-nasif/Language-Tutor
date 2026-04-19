@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "target": "Ich wohne in Hamburg",
+  "language": "de-DE",
+  "transcribed": "Ich wohne in Hamburg",
+  "word_alignment": [
+    {
+      "expected": "wohne",
+      "got": "wohne",
+      "type": "match",
+      "start_ms": 220,
+      "end_ms": 460,
+      "expected_ipa": null,
+      "actual_ipa": null,
+      "phoneme_errors": []
+    }
+  ],
+  "fluency": {
+    "duration_ms": 1650,
+    "speech_rate_wpm": 145.45,
+    "long_pauses_ms": [],
+    "filler_count": 0
+  },
+  "overall": {
+    "word_error_rate": 0.0,
+    "phoneme_error_rate": 0.0,
+    "intelligibility_score": 1.0
+  }
+}

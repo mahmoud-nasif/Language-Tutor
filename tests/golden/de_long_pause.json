@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "target": "Heute lerne ich Deutsch",
+  "language": "de-DE",
+  "transcribed": "Heute lerne ich Deutsch",
+  "word_alignment": [
+    {
+      "expected": "lerne",
+      "got": "lerne",
+      "type": "match",
+      "start_ms": 230,
+      "end_ms": 560,
+      "expected_ipa": null,
+      "actual_ipa": null,
+      "phoneme_errors": []
+    }
+  ],
+  "fluency": {
+    "duration_ms": 2300,
+    "speech_rate_wpm": 104.35,
+    "long_pauses_ms": [
+      920
+    ],
+    "filler_count": 0
+  },
+  "overall": {
+    "word_error_rate": 0.0,
+    "phoneme_error_rate": 0.0,
+    "intelligibility_score": 1.0
+  }
+}
