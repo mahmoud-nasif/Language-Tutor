@@ -1,0 +1,80 @@
+[build-system]
+requires = ["hatchling~=1.25.0"]
+build-backend = "hatchling.build"
+
+[project]
+name = "polyglot"
+version = "0.1.0"
+description = "Self-hosted pronunciation and grammar tutor"
+readme = "README.md"
+requires-python = ">=3.11,<3.12"
+authors = [{ name = "Polyglot Contributors" }]
+license = { text = "MIT" }
+dependencies = [
+  "fastapi~=0.115.0",
+  "uvicorn[standard]~=0.30.0",
+  "pydantic~=2.8.0",
+  "pydantic-settings~=2.4.0",
+  "structlog~=24.4.0",
+  "prometheus-client~=0.21.0",
+  "orjson~=3.10.0",
+]
+
+[dependency-groups]
+dev = [
+  "pytest~=8.3.0",
+  "pytest-asyncio~=0.24.0",
+  "httpx~=0.27.0",
+  "mypy~=1.11.0",
+  "ruff~=0.6.0",
+  "pre-commit~=3.8.0",
+  "import-linter~=2.0.0",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/polyglot"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"src/polyglot/frontend/static" = "polyglot/frontend/static"
+
+[tool.uv]
+default-groups = ["dev"]
+
+[[tool.uv.index]]
+name = "pytorch-cu124"
+url = "https://download.pytorch.org/whl/cu124"
+explicit = true
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+
+[tool.pytest.ini_options]
+addopts = "-q"
+testpaths = ["tests"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = false
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+ignore_missing_imports = true
+
+[tool.importlinter]
+root_package = "polyglot"
+
+[[tool.importlinter.contracts]]
+name = "analysis cannot import api"
+type = "forbidden"
+source_modules = ["polyglot.analysis"]
+forbidden_modules = ["polyglot.api"]
+
+[[tool.importlinter.contracts]]
+name = "storage cannot import llm"
+type = "forbidden"
+source_modules = ["polyglot.storage"]
+forbidden_modules = ["polyglot.llm"]
