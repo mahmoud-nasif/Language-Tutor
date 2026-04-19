@@ -1,0 +1,1046 @@
+[
+  {
+    "fixture_id": "en_01_clean",
+    "file": "tests/fixtures/en/en_01_clean.wav",
+    "language": "en-US",
+    "target": "I have been living in Hamburg for three years.",
+    "should_asr": "Near-exact transcript",
+    "should_phoneme": "Near-zero phoneme errors",
+    "should_fluency": "No long pauses",
+    "response": {
+      "detail": "Unsupported or corrupted WAV payload."
+    }
+  },
+  {
+    "fixture_id": "en_02_word_sub",
+    "file": "tests/fixtures/en/en_02_word_sub.wav",
+    "language": "en-US",
+    "target": "I have been living in Hamburg for three years.",
+    "should_asr": "At least one lexical substitution should appear",
+    "should_phoneme": "Phoneme errors may occur around substituted token",
+    "should_fluency": "No long pauses",
+    "response": {
+      "schema_version": 1,
+      "target": "I have been living in Hamburg for three years.",
+      "language": "en-US",
+      "transcribed": "I have been living in Hamburg for 4 years.",
+      "word_alignment": [
+        {
+          "expected": "I",
+          "got": "I",
+          "type": "match",
+          "start_ms": 757,
+          "end_ms": 1064,
+          "expected_ipa": null,
+          "actual_ipa": null,
+          "phoneme_errors": []
+        },
+        {
+          "expected": "have",
+          "got": "have",
+          "type": "match",
+          "start_ms": 1064,
+          "end_ms": 1371,
+          "expected_ipa": null,
+          "actual_ipa": null,
+          "phoneme_errors": []
+        },
+        {
+          "expected": "been",
+          "got": "been",
+          "type": "match",
+          "start_ms": 1371,
+          "end_ms": 1678,
+          "expected_ipa": null,
+          "actual_ipa": null,
+          "phoneme_errors": []
+        },
+        {
+          "expected": "living",
+          "got": "living",
+          "type": "match",
+          "start_ms": 1678,
+          "end_ms": 1985,
+          "expected_ipa": null,
+          "actual_ipa": null,
+          "phoneme_errors": []
+        },
+        {
+          "expected": "in",
+          "got": "in",
+          "type": "match",
+          "start_ms": 1985,
+          "end_ms": 2292,
+          "expected_ipa": null,
+          "actual_ipa": null,
+          "phoneme_errors": []
+        },
+        {
+          "expected": "Hamburg",
+          "got": "Hamburg",
+          "type": "match",
+          "start_ms": 2292,
+          "end_ms": 2599,
+          "expected_ipa": null,
+          "actual_ipa": null,
+          "phoneme_errors": []
+        },
+        {
+          "expected": "for",
+          "got": "for",
+          "type": "match",
+          "start_ms": 2599,
+          "end_ms": 2906,
+          "expected_ipa": null,
+          "actual_ipa": null,
+          "phoneme_errors": []
+        },
+        {
+          "expected": "three",
+          "got": "4",
+          "type": "substitution",
+          "start_ms": 2906,
+          "end_ms": 3213,
+          "expected_ipa": "theta r i",
+          "actual_ipa": "f o r",
+          "phoneme_errors": [
+            {
+              "expected": "theta",
+              "got": "f",
+              "category": "substitution"
+            }
+          ]
+        },
+        {
+          "expected": "years.",
+          "got": "years.",
+          "type": "match",
+          "start_ms": 3213,
+          "end_ms": 3524,
+          "expected_ipa": null,
+          "actual_ipa": null,
+          "phoneme_errors": []
+        }
+      ],
+      "fluency": {
+        "duration_ms": 4600,
+        "speech_rate_wpm": 117.39,
+        "long_pauses_ms": [],
+        "filler_count": 0
+      },
+      "overall": {
+        "word_error_rate": 0.1111,
+        "phoneme_error_rate": 0.1333,
+        "intelligibility_score": 0.88
+      }
+    }
+  },
+  {
+    "fixture_id": "en_03_phoneme_substitution",
+    "file": "tests/fixtures/en/en_03_Phoneme_substitution.wav",
+    "language": "en-US",
+    "target": "I have been living in Hamburg for three years.",
+    "should_asr": "Transcript may remain semantically correct",
+    "should_phoneme": "Pronunciation error should be visible in phoneme alignment despite intelligible ASR",
+    "should_fluency": "No long pauses",
+    "response": {
+      "schema_version": 1,
+      "target": "I have been living in Hamburg for three years.",
+      "language": "en-US",
+      "transcribed": "I have been living in Hamburg for 3 years.",
+      "word_alignment": [
+        {
+          "expected": "I",
+          "got": "I",
+          "type": "match",
+          "start_ms": 858,
+          "end_ms": 1182,
+          "expected_ipa": null,
+          "actual_ipa": null,
+          "phoneme_errors": []
+        },
+        {
+          "expected": "have",
+          "got": "have",
+          "type": "match",
+          "start_ms": 1182,
+          "end_ms": 1506,
+          "expected_ipa": null,
+          "actual_ipa": null,
+          "phoneme_errors": []
+        },
+        {
+          "expected": "been",
+          "got": "been",
+          "type": "match",
+          "start_ms": 1506,
+          "end_ms": 1830,
+          "expected_ipa": null,
+          "actual_ipa": null,
+          "phoneme_errors": []
+        },
+        {
+          "expected": "living",
+          "got": "living",
+          "type": "match",
+          "start_ms": 1830,
+          "end_ms": 2154,
+          "expected_ipa": null,
+          "actual_ipa": null,
+          "phoneme_errors": []
+        },
+        {
+          "expected": "in",
+          "got": "in",
+          "type": "match",
+          "start_ms": 2154,
+          "end_ms": 2478,
+          "expected_ipa": null,
+          "actual_ipa": null,
+          "phoneme_errors": []
+        },
+        {
+          "expected": "Hamburg",
+          "got": "Hamburg",
+          "type": "match",
+          "start_ms": 2478,
+          "end_ms": 2802,
+          "expected_ipa": null,
+          "actual_ipa": null,
+          "phoneme_errors": []
+        },
+        {
+          "expected": "for",
+          "got": "for",
+          "type": "match",
+          "start_ms": 2802,
+          "end_ms": 3126,
+          "expected_ipa": null,
+          "actual_ipa": null,
+          "phoneme_errors": []
+        },
+        {
+          "expected": "three",
+          "got": "3",
+          "type": "substitution",
+          "start_ms": 3126,
+          "end_ms": 3450,
+          "expected_ipa": "theta r i",
+          "actual_ipa": "theta r i",
+          "phoneme_errors": []
+        },
+        {
+          "expected": "years.",
+          "got": "years.",
+          "type": "match",
+          "start_ms": 3450,
+          "end_ms": 3777,
+          "expected_ipa": null,
+          "actual_ipa": null,
+          "phoneme_errors": []
+        }
+      ],
+      "fluency": {
+        "duration_ms": 4970,
+        "speech_rate_wpm": 108.65,
+        "long_pauses_ms": [],
+        "filler_count": 0
+      },
+      "overall": {
+        "word_error_rate": 0.1111,
+        "phoneme_error_rate": 0.0,
+        "intelligibility_score": 0.9333
+      }
+    }
+  },
+  {
+    "fixture_id": "en_04_pause",
+    "file": "tests/fixtures/en/en_04_pause.wav",
+    "language": "en-US",
+    "target": "I usually walk to work.",
+    "should_asr": "Transcript mostly correct",
+    "should_phoneme": "No major phoneme issue required",
+    "should_fluency": "At least one long pause should be detected",
+    "response": {
+      "schema_version": 1,
+      "target": "I usually walk to work.",
+      "language": "en-US",
+      "transcribed": "I have been living in Hamburg for three years.",
+      "word_alignment": [
+        {
+          "expected": "I",
+          "got": "I",
+          "type": "match",
+          "start_ms": 757,
+          "end_ms": 1263,
+          "expected_ipa": null,
+          "actual_ipa": null,
+          "phoneme_errors": []
+        },
+        {
+          "expected": "usually",
+          "got": "have",
+          "type": "substitution",
+          "start_ms": 1263,
+          "end_ms": 1769,
+          "expected_ipa": "j u zh u schwa l i",
+          "actual_ipa": "h a v",
+          "phoneme_errors": [
+            {
+              "expected": "j",
+              "got": "h",
+              "category": "substitution"
+            }
+          ]
+        },
+        {
+          "expected": "walk",
+          "got": "been",
+          "type": "substitution",
+          "start_ms": 1769,
+          "end_ms": 2275,
+          "expected_ipa": "w o k",
+          "actual_ipa": "b i n",
+          "phoneme_errors": [
+            {
+              "expected": "w",
+              "got": "b",
+              "category": "substitution"
+            }
+          ]
+        },
+        {
+          "expected": "to",
+          "got": "living",
+          "type": "substitution",
+          "start_ms": 2275,
+          "end_ms": 2781,
+          "expected_ipa": "t u",
+          "actual_ipa": "l i v i ng",
+          "phoneme_errors": [
+            {
+              "expected": "t",
+              "got": "l",
+              "category": "substitution"
+            }
+          ]
+        },
+        {
+          "expected": "work.",
+          "got": "in",
+          "type": "substitution",
+          "start_ms": 2781,
+          "end_ms": 3287,
+          "expected_ipa": "w er k",
+          "actual_ipa": "i n",
+          "phoneme_errors": [
+            {
+              "expected": "w",
+              "got": "i",
+              "category": "substitution"
+            }
+          ]
+        },
+        {
+          "expected": "",
+          "got": "Hamburg",
+          "type": "substitution",
+          "start_ms": 3287,
+          "end_ms": 3793,
+          "expected_ipa": null,
+          "actual_ipa": "h a m b er g",
+          "phoneme_errors": []
+        },
+        {
+          "expected": "",
+          "got": "for",
+          "type": "substitution",
+          "start_ms": 3793,
+          "end_ms": 4299,
+          "expected_ipa": null,
+          "actual_ipa": "f o r",
+          "phoneme_errors": []
+        },
+        {
+          "expected": "",
+          "got": "three",
+          "type": "substitution",
+          "start_ms": 4299,
+          "end_ms": 4805,
+          "expected_ipa": null,
+          "actual_ipa": "theta r i",
+          "phoneme_errors": []
+        },
+        {
+          "expected": "",
+          "got": "years.",
+          "type": "substitution",
+          "start_ms": 4805,
+          "end_ms": 5313,
+          "expected_ipa": null,
+          "actual_ipa": "j i r z",
+          "phoneme_errors": []
+        }
+      ],
+      "fluency": {
+        "duration_ms": 6390,
+        "speech_rate_wpm": 84.51,
+        "long_pauses_ms": [],
+        "filler_count": 0
+      },
+      "overall": {
+        "word_error_rate": 1.6,
+        "phoneme_error_rate": 1.5625,
+        "intelligibility_score": 0.0
+      }
+    }
+  },
+  {
+    "fixture_id": "en_05_contraction",
+    "file": "tests/fixtures/en/en_05_contaction.wav",
+    "language": "en-US",
+    "target": "I've been living here for three years.",
+    "should_asr": "Transcript may normalize contraction form (`I've` vs `I have`)",
+    "should_phoneme": "Phoneme layer should remain mostly aligned",
+    "should_fluency": "No long pauses",
+    "response": {
+      "schema_version": 1,
+      "target": "I've been living here for three years.",
+      "language": "en-US",
+      "transcribed": "I have been living here for three years.",
+      "word_alignment": [
+        {
+          "expected": "I've",
+          "got": "I",
+          "type": "substitution",
+          "start_ms": 807,
+          "end_ms": 1142,
+          "expected_ipa": "ai v",
+          "actual_ipa": "ai",
+          "phoneme_errors": [
+            {
+              "expected": "ai",
+              "got": "ai",
+              "category": "substitution"
+            }
+          ]
+        },
+        {
+          "expected": "",
+          "got": "have",
+          "type": "substitution",
+          "start_ms": 1142,
+          "end_ms": 1477,
+          "expected_ipa": null,
+          "actual_ipa": "h a v",
+          "phoneme_errors": []
+        },
+        {
+          "expected": "been",
+          "got": "been",
+          "type": "match",
+          "start_ms": 1477,
+          "end_ms": 1812,
+          "expected_ipa": null,
+          "actual_ipa": null,
+          "phoneme_errors": []
+        },
+        {
+          "expected": "living",
+          "got": "living",
+          "type": "match",
+          "start_ms": 1812,
+          "end_ms": 2147,
+          "expected_ipa": null,
+          "actual_ipa": null,
+          "phoneme_errors": []
+        },
+        {
+          "expected": "here",
+          "got": "here",
+          "type": "match",
+          "start_ms": 2147,
+          "end_ms": 2482,
+          "expected_ipa": null,
+          "actual_ipa": null,
+          "phoneme_errors": []
+        },
+        {
+          "expected": "for",
+          "got": "for",
+          "type": "match",
+          "start_ms": 2482,
+          "end_ms": 2817,
+          "expected_ipa": null,
+          "actual_ipa": null,
+          "phoneme_errors": []
+        },
+        {
+          "expected": "three",
+          "got": "three",
+          "type": "match",
+          "start_ms": 2817,
+          "end_ms": 3152,
+          "expected_ipa": null,
+          "actual_ipa": null,
+          "phoneme_errors": []
+        },
+        {
+          "expected": "years.",
+          "got": "years.",
+          "type": "match",
+          "start_ms": 3152,
+          "end_ms": 3490,
+          "expected_ipa": null,
+          "actual_ipa": null,
+          "phoneme_errors": []
+        }
+      ],
+      "fluency": {
+        "duration_ms": 4440,
+        "speech_rate_wpm": 108.11,
+        "long_pauses_ms": [],
+        "filler_count": 0
+      },
+      "overall": {
+        "word_error_rate": 0.2857,
+        "phoneme_error_rate": 0.087,
+        "intelligibility_score": 0.7938
+      }
+    }
+  },
+  {
+    "fixture_id": "de_01_clean",
+    "file": "tests/fixtures/de/de_01_clean.wav",
+    "language": "de-DE",
+    "target": "Ich wohne seit drei Jahren in Hamburg.",
+    "should_asr": "Near-exact transcript",
+    "should_phoneme": "Near-zero phoneme errors expected after German model fix",
+    "should_fluency": "No long pauses",
+    "response": {
+      "schema_version": 1,
+      "target": "Ich wohne seit drei Jahren in Hamburg.",
+      "language": "de-DE",
+      "transcribed": "Ich wohne seit drei Jahren in Hamburg.",
+      "word_alignment": [
+        {
+          "expected": "Ich",
+          "got": "Ich",
+          "type": "match",
+          "start_ms": 571,
+          "end_ms": 1017,
+          "expected_ipa": null,
+          "actual_ipa": null,
+          "phoneme_errors": []
+        },
+        {
+          "expected": "wohne",
+          "got": "wohne",
+          "type": "match",
+          "start_ms": 1017,
+          "end_ms": 1463,
+          "expected_ipa": null,
+          "actual_ipa": null,
+          "phoneme_errors": []
+        },
+        {
+          "expected": "seit",
+          "got": "seit",
+          "type": "match",
+          "start_ms": 1463,
+          "end_ms": 1909,
+          "expected_ipa": null,
+          "actual_ipa": null,
+          "phoneme_errors": []
+        },
+        {
+          "expected": "drei",
+          "got": "drei",
+          "type": "match",
+          "start_ms": 1909,
+          "end_ms": 2355,
+          "expected_ipa": null,
+          "actual_ipa": null,
+          "phoneme_errors": []
+        },
+        {
+          "expected": "Jahren",
+          "got": "Jahren",
+          "type": "match",
+          "start_ms": 2355,
+          "end_ms": 2801,
+          "expected_ipa": null,
+          "actual_ipa": null,
+          "phoneme_errors": []
+        },
+        {
+          "expected": "in",
+          "got": "in",
+          "type": "match",
+          "start_ms": 2801,
+          "end_ms": 3247,
+          "expected_ipa": null,
+          "actual_ipa": null,
+          "phoneme_errors": []
+        },
+        {
+          "expected": "Hamburg.",
+          "got": "Hamburg.",
+          "type": "match",
+          "start_ms": 3247,
+          "end_ms": 3693,
+          "expected_ipa": null,
+          "actual_ipa": null,
+          "phoneme_errors": []
+        }
+      ],
+      "fluency": {
+        "duration_ms": 4330,
+        "speech_rate_wpm": 97.0,
+        "long_pauses_ms": [],
+        "filler_count": 0
+      },
+      "overall": {
+        "word_error_rate": 0.0,
+        "phoneme_error_rate": 0.3846,
+        "intelligibility_score": 0.8462
+      }
+    }
+  },
+  {
+    "fixture_id": "de_03_phoneme_sub",
+    "file": "tests/fixtures/de/de_03_phoneme_sub.wav",
+    "language": "de-DE",
+    "target": "Rote Rosen.",
+    "should_asr": "Transcript may remain correct",
+    "should_phoneme": "Rhotic/fricative substitution should appear in phoneme alignment",
+    "should_fluency": "No long pauses",
+    "response": {
+      "schema_version": 1,
+      "target": "Rote Rosen.",
+      "language": "de-DE",
+      "transcribed": "Ich wohne seit 3 Jahren in Hamburg.",
+      "word_alignment": [
+        {
+          "expected": "Rote",
+          "got": "Ich",
+          "type": "substitution",
+          "start_ms": 892,
+          "end_ms": 1318,
+          "expected_ipa": "r o t schwa",
+          "actual_ipa": "i ich",
+          "phoneme_errors": [
+            {
+              "expected": "r",
+              "got": "i",
+              "category": "substitution"
+            }
+          ]
+        },
+        {
+          "expected": "Rosen.",
+          "got": "wohne",
+          "type": "substitution",
+          "start_ms": 1318,
+          "end_ms": 1744,
+          "expected_ipa": "r o z schwa n",
+          "actual_ipa": "v o n schwa",
+          "phoneme_errors": [
+            {
+              "expected": "r",
+              "got": "v",
+              "category": "substitution"
+            }
+          ]
+        },
+        {
+          "expected": "",
+          "got": "seit",
+          "type": "substitution",
+          "start_ms": 1744,
+          "end_ms": 2170,
+          "expected_ipa": null,
+          "actual_ipa": "z ai t",
+          "phoneme_errors": []
+        },
+        {
+          "expected": "",
+          "got": "3",
+          "type": "substitution",
+          "start_ms": 2170,
+          "end_ms": 2596,
+          "expected_ipa": null,
+          "actual_ipa": "d r ai",
+          "phoneme_errors": []
+        },
+        {
+          "expected": "",
+          "got": "Jahren",
+          "type": "substitution",
+          "start_ms": 2596,
+          "end_ms": 3022,
+          "expected_ipa": null,
+          "actual_ipa": "j a r schwa n",
+          "phoneme_errors": []
+        },
+        {
+          "expected": "",
+          "got": "in",
+          "type": "substitution",
+          "start_ms": 3022,
+          "end_ms": 3448,
+          "expected_ipa": null,
+          "actual_ipa": "i n",
+          "phoneme_errors": []
+        },
+        {
+          "expected": "",
+          "got": "Hamburg.",
+          "type": "substitution",
+          "start_ms": 3448,
+          "end_ms": 3878,
+          "expected_ipa": null,
+          "actual_ipa": "h a m b ? ? k",
+          "phoneme_errors": []
+        }
+      ],
+      "fluency": {
+        "duration_ms": 4650,
+        "speech_rate_wpm": 90.32,
+        "long_pauses_ms": [],
+        "filler_count": 0
+      },
+      "overall": {
+        "word_error_rate": 3.5,
+        "phoneme_error_rate": 2.5556,
+        "intelligibility_score": 0.0
+      }
+    }
+  },
+  {
+    "fixture_id": "de_04_word_sub",
+    "file": "tests/fixtures/de/de_04_word_sub.wav",
+    "language": "de-DE",
+    "target": "Ich wohne seit drei Jahren in Hamburg.",
+    "should_asr": "At least one lexical substitution should appear",
+    "should_phoneme": "Phoneme mismatch should occur around substituted token",
+    "should_fluency": "No long pauses",
+    "response": {
+      "schema_version": 1,
+      "target": "Ich wohne seit drei Jahren in Hamburg.",
+      "language": "de-DE",
+      "transcribed": "Ich wohne seit vier Jahren in Hamburg.",
+      "word_alignment": [
+        {
+          "expected": "Ich",
+          "got": "Ich",
+          "type": "match",
+          "start_ms": 605,
+          "end_ms": 1026,
+          "expected_ipa": null,
+          "actual_ipa": null,
+          "phoneme_errors": []
+        },
+        {
+          "expected": "wohne",
+          "got": "wohne",
+          "type": "match",
+          "start_ms": 1026,
+          "end_ms": 1447,
+          "expected_ipa": null,
+          "actual_ipa": null,
+          "phoneme_errors": []
+        },
+        {
+          "expected": "seit",
+          "got": "seit",
+          "type": "match",
+          "start_ms": 1447,
+          "end_ms": 1868,
+          "expected_ipa": null,
+          "actual_ipa": null,
+          "phoneme_errors": []
+        },
+        {
+          "expected": "drei",
+          "got": "vier",
+          "type": "substitution",
+          "start_ms": 1868,
+          "end_ms": 2289,
+          "expected_ipa": "d r ai",
+          "actual_ipa": "f i r",
+          "phoneme_errors": [
+            {
+              "expected": "d",
+              "got": "f",
+              "category": "substitution"
+            }
+          ]
+        },
+        {
+          "expected": "Jahren",
+          "got": "Jahren",
+          "type": "match",
+          "start_ms": 2289,
+          "end_ms": 2710,
+          "expected_ipa": null,
+          "actual_ipa": null,
+          "phoneme_errors": []
+        },
+        {
+          "expected": "in",
+          "got": "in",
+          "type": "match",
+          "start_ms": 2710,
+          "end_ms": 3131,
+          "expected_ipa": null,
+          "actual_ipa": null,
+          "phoneme_errors": []
+        },
+        {
+          "expected": "Hamburg.",
+          "got": "Hamburg.",
+          "type": "match",
+          "start_ms": 3131,
+          "end_ms": 3558,
+          "expected_ipa": null,
+          "actual_ipa": null,
+          "phoneme_errors": []
+        }
+      ],
+      "fluency": {
+        "duration_ms": 4280,
+        "speech_rate_wpm": 98.13,
+        "long_pauses_ms": [],
+        "filler_count": 0
+      },
+      "overall": {
+        "word_error_rate": 0.1429,
+        "phoneme_error_rate": 0.3846,
+        "intelligibility_score": 0.7604
+      }
+    }
+  },
+  {
+    "fixture_id": "de_04_umlaut",
+    "file": "tests/fixtures/de/de_04_umlaut.wav",
+    "language": "de-DE",
+    "target": "Ich möchte einen Käse bestellen.",
+    "should_asr": "Transcript may decompose umlaut (`Käse` -> `Kaese`/`Kase`)",
+    "should_phoneme": "Umlaut-related vowel mismatch should be detected",
+    "should_fluency": "No long pauses",
+    "response": {
+      "schema_version": 1,
+      "target": "Ich möchte einen Käse bestellen.",
+      "language": "de-DE",
+      "transcribed": "Ich muss dir einen Kase bestellen.",
+      "word_alignment": [
+        {
+          "expected": "Ich",
+          "got": "Ich",
+          "type": "match",
+          "start_ms": 487,
+          "end_ms": 793,
+          "expected_ipa": null,
+          "actual_ipa": null,
+          "phoneme_errors": []
+        },
+        {
+          "expected": "möchte",
+          "got": "muss",
+          "type": "substitution",
+          "start_ms": 793,
+          "end_ms": 1099,
+          "expected_ipa": "m oe ich t schwa",
+          "actual_ipa": "m u s",
+          "phoneme_errors": [
+            {
+              "expected": "m",
+              "got": "m",
+              "category": "substitution"
+            }
+          ]
+        },
+        {
+          "expected": "",
+          "got": "dir",
+          "type": "substitution",
+          "start_ms": 1099,
+          "end_ms": 1405,
+          "expected_ipa": null,
+          "actual_ipa": "d i r",
+          "phoneme_errors": []
+        },
+        {
+          "expected": "einen",
+          "got": "einen",
+          "type": "match",
+          "start_ms": 1405,
+          "end_ms": 1711,
+          "expected_ipa": null,
+          "actual_ipa": null,
+          "phoneme_errors": []
+        },
+        {
+          "expected": "Käse",
+          "got": "Kase",
+          "type": "substitution",
+          "start_ms": 1711,
+          "end_ms": 2017,
+          "expected_ipa": "k e z schwa",
+          "actual_ipa": "k a z schwa",
+          "phoneme_errors": [
+            {
+              "expected": "k",
+              "got": "k",
+              "category": "substitution"
+            }
+          ]
+        },
+        {
+          "expected": "bestellen.",
+          "got": "bestellen.",
+          "type": "match",
+          "start_ms": 2017,
+          "end_ms": 2326,
+          "expected_ipa": null,
+          "actual_ipa": null,
+          "phoneme_errors": []
+        }
+      ],
+      "fluency": {
+        "duration_ms": 3310,
+        "speech_rate_wpm": 108.76,
+        "long_pauses_ms": [],
+        "filler_count": 0
+      },
+      "overall": {
+        "word_error_rate": 0.6,
+        "phoneme_error_rate": 0.4783,
+        "intelligibility_score": 0.4487
+      }
+    }
+  },
+  {
+    "fixture_id": "de_05_pause",
+    "file": "tests/fixtures/de/de_05_pause.wav",
+    "language": "de-DE",
+    "target": "Heute lerne ich Deutsch.",
+    "should_asr": "Transcript mostly correct",
+    "should_phoneme": "No major phoneme issue required",
+    "should_fluency": "At least one long pause should be detected",
+    "response": {
+      "schema_version": 1,
+      "target": "Heute lerne ich Deutsch.",
+      "language": "de-DE",
+      "transcribed": "Ich wohne seit drei Jahren in Hamburg.",
+      "word_alignment": [
+        {
+          "expected": "Heute",
+          "got": "Ich",
+          "type": "substitution",
+          "start_ms": 824,
+          "end_ms": 1412,
+          "expected_ipa": "h o oe t schwa",
+          "actual_ipa": "i ich",
+          "phoneme_errors": [
+            {
+              "expected": "h",
+              "got": "i",
+              "category": "substitution"
+            }
+          ]
+        },
+        {
+          "expected": "lerne",
+          "got": "wohne",
+          "type": "substitution",
+          "start_ms": 1412,
+          "end_ms": 2000,
+          "expected_ipa": "l er n schwa",
+          "actual_ipa": "v o n schwa",
+          "phoneme_errors": [
+            {
+              "expected": "l",
+              "got": "v",
+              "category": "substitution"
+            }
+          ]
+        },
+        {
+          "expected": "ich",
+          "got": "seit",
+          "type": "substitution",
+          "start_ms": 2000,
+          "end_ms": 2588,
+          "expected_ipa": "i ich",
+          "actual_ipa": "z ai t",
+          "phoneme_errors": [
+            {
+              "expected": "i",
+              "got": "z",
+              "category": "substitution"
+            }
+          ]
+        },
+        {
+          "expected": "Deutsch.",
+          "got": "drei",
+          "type": "substitution",
+          "start_ms": 2588,
+          "end_ms": 3176,
+          "expected_ipa": "d o oe tsh",
+          "actual_ipa": "d r ai",
+          "phoneme_errors": [
+            {
+              "expected": "d",
+              "got": "d",
+              "category": "substitution"
+            }
+          ]
+        },
+        {
+          "expected": "",
+          "got": "Jahren",
+          "type": "substitution",
+          "start_ms": 3176,
+          "end_ms": 3764,
+          "expected_ipa": null,
+          "actual_ipa": "j a r schwa n",
+          "phoneme_errors": []
+        },
+        {
+          "expected": "",
+          "got": "in",
+          "type": "substitution",
+          "start_ms": 3764,
+          "end_ms": 4352,
+          "expected_ipa": null,
+          "actual_ipa": "i n",
+          "phoneme_errors": []
+        },
+        {
+          "expected": "",
+          "got": "Hamburg.",
+          "type": "substitution",
+          "start_ms": 4352,
+          "end_ms": 4942,
+          "expected_ipa": null,
+          "actual_ipa": "h a m b ? ? k",
+          "phoneme_errors": []
+        }
+      ],
+      "fluency": {
+        "duration_ms": 5380,
+        "speech_rate_wpm": 78.07,
+        "long_pauses_ms": [],
+        "filler_count": 0
+      },
+      "overall": {
+        "word_error_rate": 1.75,
+        "phoneme_error_rate": 1.4,
+        "intelligibility_score": 0.0
+      }
+    }
+  }
+]

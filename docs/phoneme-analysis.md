@@ -28,39 +28,63 @@ Similarity-aware substitutions reduce penalty for known confusions:
 
 These values are intentionally explicit and version-controlled in code.
 
-## Worked example (en-US)
+## Worked example (en-US, fixture-backed)
 
-Target: `three`
+Fixture: `tests/fixtures/en/en_03_Phoneme_substitution.wav`
 
-- Expected IPA: `theta r iy`
-- Actual IPA: `t r iy`
-
-Alignment result:
-
-- `theta -> t` (substitute)
-- `r -> r` (match)
-- `iy -> iy` (match)
-
-Outcome:
-
-- Word can still be transcribed correctly by ASR.
-- Phoneme layer captures `dental_fricative_stopping`.
-
-## Worked example (de-DE)
-
-Target: `Rote`
-
-- Expected IPA: `r o t e`
-- Actual IPA: `R o t e`
+- Target sentence: `I have been living in Hamburg for three years.`
+- WhisperX transcript: `I have been living in Hamburg for 3 years.`
+- Expected canonical phonemes:
+	`ai h a v b i n l i v i ng i n h a m b er g f o r theta r i j i r z`
+- Recognized canonical phonemes:
+	`ai h a v b i n l i v i ng i n h a m b er g f o r theta r i j i r z`
 
 Alignment result:
 
-- `r -> R` (low-cost substitute)
-- Remaining phonemes match
+- Score: `60.0`
+- Operations: all `match`
 
-Outcome:
+Final report snapshot:
 
-- Captures rhotic variant without treating it as severe mismatch.
+- `overall.word_error_rate = 0.1111`
+- `overall.phoneme_error_rate = 0.0`
+- `overall.intelligibility_score = 0.9333`
+
+Interpretation:
+
+- This recording does not currently exhibit a detectable phoneme mismatch at the phoneme layer.
+- ASR only differs by numeric formatting (`three` vs `3`).
+
+## Worked example (de-DE, fixture-backed)
+
+Fixture: `tests/fixtures/de/de_04_umlaut.wav`
+
+- Target sentence: `Ich möchte einen Käse bestellen.`
+- WhisperX transcript: `Ich muss dir einen Kase bestellen.`
+- Expected canonical phonemes:
+	`i ich m oe ich t schwa ai n schwa n k e z schwa b schwa sh t e l schwa n`
+- Recognized canonical phonemes:
+	`i s m u sh t e r ai n i n k a t s schwa b i sh t e l schwa n t`
+
+Alignment result:
+
+- Score: `16.0`
+- Representative operations:
+	- `oe -> u` (substitute)
+	- `ich -> sh` (substitute)
+	- `e -> a` around `Käse` (substitute)
+	- trailing insertion near sentence end
+
+Final report snapshot:
+
+- `overall.word_error_rate = 0.6`
+- `overall.phoneme_error_rate = 0.4783`
+- `overall.intelligibility_score = 0.4487`
+
+Interpretation:
+
+- Umlaut-related vowel mismatch (`Käse` vs `Kase`) is surfaced in phoneme alignment.
+- Lexical substitutions (`möchte` -> `muss`, extra `dir`) are also visible in ASR-level alignment.
 
 ## Report linkage
 
