@@ -25,13 +25,27 @@ Data structures
     - clipped: bool
 
 Functions
-- def _resample_linear(signal: np.ndarray, from_rate: int, to_rate: int) -> np.ndarray
+- def _resample_bandlimited(signal: np.ndarray, from_rate: int, to_rate: int) -> np.ndarray
 - def preprocess_wav_bytes(
     wav_bytes: bytes,
     min_duration_ms: int = 300,
     max_duration_ms: int = 30000,
     silence_rms_threshold: float = 0.003,
   ) -> AudioSample
+
+## src/polyglot/analysis/ipa_mapping.py
+
+Module constants
+- ESPEAK_TOKEN_TO_IPA: dict[str, str]
+- GERMAN_MODEL_TOKEN_TO_IPA: dict[str, str]
+- IPA_TO_CANONICAL: dict[str, str]
+
+Functions
+- def canonicalize_expected_ipa(ipa_text: str, language: LanguageCode) -> str
+- def canonicalize_recognized_phonemes(raw_text: str, language: LanguageCode) -> str
+- def normalize_espeak_to_ipa(espeak_text: str) -> str
+- def normalize_german_to_ipa(raw_text: str) -> str
+- def normalize_phoneme_output(raw_text: str, language: LanguageCode) -> str
 
 ## src/polyglot/analysis/asr_whisperx.py
 
