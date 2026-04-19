@@ -1,5 +1,6 @@
 """G2P conversion using phonemizer with espeak-ng backend."""
 
+from polyglot.analysis.ipa_mapping import canonicalize_expected_ipa
 from polyglot.analysis.models import G2PResult, G2PWordResult, LanguageCode
 
 PHONEMIZER_LANGUAGE_MAP: dict[LanguageCode, str] = {
@@ -30,6 +31,7 @@ class PhonemizerG2PService:
         )
 
         words = [
-            G2PWordResult(word=word, ipa=ipa) for word, ipa in zip(tokens, ipa_tokens, strict=False)
+            G2PWordResult(word=word, ipa=canonicalize_expected_ipa(ipa, language))
+            for word, ipa in zip(tokens, ipa_tokens, strict=False)
         ]
         return G2PResult(sentence=sentence, words=words)

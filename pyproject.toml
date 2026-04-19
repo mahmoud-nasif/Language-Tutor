@@ -27,6 +27,7 @@ dependencies = [
   "whisperx==3.3.1",
   "faster-whisper==1.1.0",
   "transformers==4.44.2",
+  "setuptools>=70.0.0,<81.0.0",
 ]
 
 [dependency-groups]
@@ -68,6 +69,7 @@ select = ["E", "F", "I", "UP", "B", "SIM"]
 [tool.pytest.ini_options]
 addopts = "-q"
 testpaths = ["tests"]
+asyncio_default_fixture_loop_scope = "function"
 
 [tool.mypy]
 python_version = "3.11"

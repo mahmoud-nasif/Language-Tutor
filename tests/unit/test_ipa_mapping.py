@@ -1,0 +1,20 @@
+from polyglot.analysis.ipa_mapping import (
+    canonicalize_expected_ipa,
+    canonicalize_recognized_phonemes,
+)
+
+
+def test_english_expected_and_recognized_canonicalize_to_same_alphabet() -> None:
+    expected = canonicalize_expected_ipa("θ ɹ iː", "en-US")
+    recognized = canonicalize_recognized_phonemes("T R IY", "en-US")
+
+    assert expected == "theta r i"
+    assert recognized == "theta r i"
+
+
+def test_german_expected_and_recognized_canonicalize_to_same_alphabet() -> None:
+    expected = canonicalize_expected_ipa("m ø ç t ə", "de-DE")
+    recognized = canonicalize_recognized_phonemes("m 2 C t @", "de-DE")
+
+    assert expected == "m oe ich t schwa"
+    assert recognized == "m oe ich t schwa"

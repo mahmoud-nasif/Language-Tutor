@@ -4,7 +4,7 @@ from typing import Any
 
 from polyglot.analysis.audio import AudioSample
 from polyglot.analysis.errors import DependencyUnavailableError
-from polyglot.analysis.ipa_mapping import normalize_phoneme_output
+from polyglot.analysis.ipa_mapping import canonicalize_recognized_phonemes
 from polyglot.analysis.models import LanguageCode, PhonemeRecognitionResult
 
 MODEL_BY_LANGUAGE: dict[LanguageCode, str] = {
@@ -70,7 +70,7 @@ class Wav2Vec2PhonemeService:
 
         predicted_ids = torch.argmax(logits, dim=-1)
         raw_sequence = processor.batch_decode(predicted_ids)[0]
-        normalized_sequence = normalize_phoneme_output(raw_sequence, language)
+        normalized_sequence = canonicalize_recognized_phonemes(raw_sequence, language)
 
         confidence = float(torch.softmax(logits, dim=-1).max().item())
         return PhonemeRecognitionResult(

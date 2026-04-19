@@ -2,10 +2,11 @@
 
 import io
 from dataclasses import dataclass
+from typing import cast
 
 import numpy as np
 
-from polyglot.analysis.errors import InvalidAudioError
+from polyglot.analysis.errors import DependencyUnavailableError, InvalidAudioError
 
 TARGET_SAMPLE_RATE = 16000
 
@@ -21,13 +22,31 @@ class AudioSample:
     clipped: bool
 
 
-def _resample_linear(signal: np.ndarray, from_rate: int, to_rate: int) -> np.ndarray:
+def _resample_bandlimited(signal: np.ndarray, from_rate: int, to_rate: int) -> np.ndarray:
+    """Resample with torchaudio sinc interpolation to avoid aliasing artifacts."""
     if from_rate == to_rate:
-        return signal
-    source_x = np.linspace(0.0, 1.0, num=signal.shape[0], endpoint=False)
-    target_len = max(1, int(round(signal.shape[0] * to_rate / from_rate)))
-    target_x = np.linspace(0.0, 1.0, num=target_len, endpoint=False)
-    return np.interp(target_x, source_x, signal).astype(np.float32)
+        return signal.astype(np.float32, copy=False)
+
+    try:
+        import torch
+        from torchaudio.functional import resample
+    except ModuleNotFoundError as exc:  # pragma: no cover - dependency gate
+        raise DependencyUnavailableError(
+            "torchaudio/torch dependencies are not installed."
+        ) from exc
+
+    waveform = torch.from_numpy(signal.astype(np.float32, copy=False)).unsqueeze(0)
+    with torch.no_grad():
+        resampled = resample(
+            waveform,
+            orig_freq=from_rate,
+            new_freq=to_rate,
+            lowpass_filter_width=64,
+            rolloff=0.9475937167399596,
+            resampling_method="sinc_interp_hann",
+        )
+    resampled_numpy = cast(np.ndarray, resampled.squeeze(0).cpu().numpy())
+    return resampled_numpy.astype(np.float32, copy=False)
 
 
 def preprocess_wav_bytes(
@@ -51,7 +70,7 @@ def preprocess_wav_bytes(
         raise InvalidAudioError("Audio payload has no samples.")
 
     mono = signal.mean(axis=1)
-    mono = _resample_linear(mono, sample_rate, TARGET_SAMPLE_RATE)
+    mono = _resample_bandlimited(mono, sample_rate, TARGET_SAMPLE_RATE)
 
     peak = float(np.max(np.abs(mono)))
     clipped = peak >= 0.999
