@@ -17,7 +17,6 @@ services:
       - "8000:8000"
     volumes:
       - app-data:/app/data
-      - hf-cache:/home/app/.cache/huggingface
     depends_on:
       ollama:
         condition: service_started
@@ -41,5 +40,4 @@ services:
 
 volumes:
   app-data:
-  hf-cache:
   ollama-models:
