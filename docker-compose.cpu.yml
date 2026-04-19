@@ -8,6 +8,8 @@ services:
       LOG_LEVEL: INFO
       HOST: 0.0.0.0
       PORT: 8000
+      PYTHONPATH: /app/src
+      HF_HOME: /app/data/huggingface
       DEVICE: cpu
       LLM_PROVIDER: ollama
       LLM_MODEL: qwen2.5:7b-instruct
@@ -16,11 +18,24 @@ services:
     ports:
       - "8000:8000"
     volumes:
+      - ./:/app
       - app-data:/app/data
     depends_on:
       ollama:
         condition: service_started
     restart: unless-stopped
+    command:
+      [
+        "uvicorn",
+        "polyglot.api.app:app",
+        "--host",
+        "0.0.0.0",
+        "--port",
+        "8000",
+        "--reload",
+        "--reload-dir",
+        "/app/src",
+      ]
     deploy:
       resources:
         reservations:
