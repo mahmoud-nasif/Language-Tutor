@@ -41,24 +41,59 @@ class WhisperXASRService:
         transcription = model.transcribe(
             audio.pcm16khz_mono, language=WHISPER_LANGUAGE_MAP[language]
         )
+        segments = transcription.get("segments", [])
+        transcript_text = str(transcription.get("text", "")).strip()
+        if not transcript_text:
+            # whisperx 3.x may only return segment-level text from the ASR pass.
+            transcript_text = " ".join(
+                str(segment.get("text", "")).strip()
+                for segment in segments
+                if str(segment.get("text", "")).strip()
+            ).strip()
 
-        transcript_text = transcription.get("text", "").strip()
         words: list[ASRWord] = []
 
-        for segment in transcription.get("segments", []):
-            for word in segment.get("words", []):
-                token = str(word.get("word", "")).strip()
-                if not token:
-                    continue
-                start_ms = int(round(float(word.get("start", 0.0)) * 1000))
-                end_ms = int(round(float(word.get("end", 0.0)) * 1000))
-                confidence = float(word.get("score", segment.get("avg_logprob", 0.0)))
+        for segment in segments:
+            segment_words = segment.get("words", [])
+            if segment_words:
+                for word in segment_words:
+                    token = str(word.get("word", "")).strip()
+                    if not token:
+                        continue
+                    start_ms = int(round(float(word.get("start", 0.0)) * 1000))
+                    end_ms = int(round(float(word.get("end", 0.0)) * 1000))
+                    confidence = float(word.get("score", segment.get("avg_logprob", 0.0)))
+                    words.append(
+                        ASRWord(
+                            word=token,
+                            start_ms=max(0, start_ms),
+                            end_ms=max(start_ms, end_ms),
+                            confidence=confidence,
+                        )
+                    )
+                continue
+
+            segment_text = str(segment.get("text", "")).strip()
+            if not segment_text:
+                continue
+            tokens = [token for token in segment_text.split() if token]
+            if not tokens:
+                continue
+            start_ms = int(round(float(segment.get("start", 0.0)) * 1000))
+            end_ms = int(round(float(segment.get("end", 0.0)) * 1000))
+            span_ms = max(1, end_ms - start_ms)
+            step_ms = max(1, span_ms // len(tokens))
+
+            # Fallback timing approximation when align model is not active.
+            for idx, token in enumerate(tokens):
+                token_start = start_ms + idx * step_ms
+                token_end = end_ms if idx == len(tokens) - 1 else token_start + step_ms
                 words.append(
                     ASRWord(
                         word=token,
-                        start_ms=max(0, start_ms),
-                        end_ms=max(start_ms, end_ms),
-                        confidence=confidence,
+                        start_ms=max(0, token_start),
+                        end_ms=max(token_start, token_end),
+                        confidence=float(segment.get("avg_logprob", 0.0)),
                     )
                 )
 
