@@ -33,27 +33,27 @@ These values are intentionally explicit and version-controlled in code.
 Fixture: `tests/fixtures/en/en_03_Phoneme_substitution.wav`
 
 - Target sentence: `I have been living in Hamburg for three years.`
-- WhisperX transcript: `I have been living in Hamburg for 3 years.`
+- WhisperX transcript: `I have been living in Hamburg for three years.`
 - Expected canonical phonemes:
 	`ai h a v b i n l i v i ng i n h a m b er g f o r theta r i j i r z`
 - Recognized canonical phonemes:
-	`ai h a v b i n l i v i ng i n h a m b er g f o r theta r i j i r z`
+	`ai h a v b i n l i v i ng i n h a m b er g f o r f r i j i r z`
 
 Alignment result:
 
-- Score: `60.0`
-- Operations: all `match`
+- Word-level alignment: all words `match`
+- Phoneme-level alignment: one targeted substitution around `three` (`theta` vs `f`)
 
 Final report snapshot:
 
-- `overall.word_error_rate = 0.1111`
-- `overall.phoneme_error_rate = 0.0`
-- `overall.intelligibility_score = 0.9333`
+- `overall.word_error_rate = 0.0`
+- `overall.phoneme_error_rate = 0.0333`
+- `overall.intelligibility_score = 0.9867`
 
 Interpretation:
 
-- This recording does not currently exhibit a detectable phoneme mismatch at the phoneme layer.
-- ASR only differs by numeric formatting (`three` vs `3`).
+- This is the critical architecture test: ASR normalizes to the target sentence, while phoneme analysis still surfaces the /θ/ -> /f/ deviation.
+- The error is informative even when transcript text appears correct.
 
 ## Worked example (de-DE, fixture-backed)
 
@@ -85,6 +85,37 @@ Interpretation:
 
 - Umlaut-related vowel mismatch (`Käse` vs `Kase`) is surfaced in phoneme alignment.
 - Lexical substitutions (`möchte` -> `muss`, extra `dir`) are also visible in ASR-level alignment.
+
+## Worked example (de-DE baseline)
+
+Fixture: `tests/fixtures/de/de_01_clean.wav`
+
+- Target sentence: `Ich wohne seit drei Jahren in Hamburg.`
+- WhisperX transcript: `Ich wohne seit drei Jahren in Hamburg.`
+- Final report snapshot:
+	- `overall.word_error_rate = 0.0`
+	- `overall.phoneme_error_rate = 0.25`
+	- `overall.intelligibility_score = 0.9`
+
+Interpretation:
+
+- This fixture represents a realistic learner baseline: text is correct while residual phoneme-level deviations remain measurable.
+- Baseline PER is non-zero and should be compared against deliberate-error fixtures rather than assumed to be zero.
+
+## Worked example (pause detection)
+
+Fixture: `tests/fixtures/en/en_04_pause.wav`
+
+- Target sentence: `I have been living in Hamburg for three years.`
+- WhisperX transcript: `I have been living in Hamburg for three years.`
+- Fluency snapshot:
+	- `fluency.long_pauses_ms = [1425]`
+	- `overall.word_error_rate = 0.0`
+	- `overall.phoneme_error_rate = 0.0667`
+
+Interpretation:
+
+- Long pause detection is now sourced from word timestamp gaps, so pause fixtures are no longer dependent on multi-segment ASR output.
 
 ## Report linkage
 
