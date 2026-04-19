@@ -7,6 +7,7 @@ import structlog
 from fastapi import FastAPI
 from fastapi.responses import ORJSONResponse
 
+from polyglot.api.routes.analyze import router as analyze_router
 from polyglot.api.routes.health import router as health_router
 from polyglot.api.routes.metrics import router as metrics_router
 from polyglot.api.version import get_app_version
@@ -54,6 +55,7 @@ def create_app() -> FastAPI:
     )
     app.include_router(health_router)
     app.include_router(metrics_router)
+    app.include_router(analyze_router)
     return app
 
 

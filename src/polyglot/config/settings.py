@@ -20,6 +20,9 @@ class Settings(BaseSettings):
     anthropic_api_key: str | None = None
 
     whisper_model: str = "small"
+    min_audio_ms: int = 300
+    max_audio_ms: int = 30000
+    pause_threshold_ms: int = 700
     database_url: str = "sqlite:///data/polyglot.db"
     demo_mode: bool = False
 
