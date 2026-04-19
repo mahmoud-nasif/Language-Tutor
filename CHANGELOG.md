@@ -6,6 +6,16 @@ The format is based on Keep a Changelog and this project adheres to Semantic Ver
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-04-19
+
+### Added
+
+- Phase 1 deterministic analysis pipeline with audio preprocessing, WhisperX ASR integration, wav2vec2 phoneme recognition, and phonemizer G2P.
+- Needleman-Wunsch phoneme alignment with explicit scoring matrix and similarity-aware substitution costs.
+- `POST /analyze` endpoint returning schema-versioned structured report.
+- Unit tests for alignment plus integration tests with 8 WAV fixtures and golden JSON assertions.
+- Documentation updates for pipeline flow and phoneme analysis method.
+
 ## [0.1.0] - 2026-04-19
 
 ### Added

@@ -8,7 +8,7 @@ Self-hosted pronunciation and grammar tutor for en-US and de-DE, with determinis
 
 ## Demo
 
-Phase 0 scaffold is complete. UI screenshots and GIF will be added in Phase 3.
+Phase 1 headless analysis is complete. UI screenshots and GIF will be added in Phase 3.
 
 ## Table of contents
 
@@ -18,6 +18,7 @@ Phase 0 scaffold is complete. UI screenshots and GIF will be added in Phase 3.
 - Configuration reference
 - LLM provider switching
 - CPU-only hosts
+- Analyze endpoint
 - Development
 - License
 
@@ -72,7 +73,10 @@ CPU-only hosts:
 | LLM_MODEL | no | qwen2.5:7b-instruct | Provider model identifier |
 | OLLAMA_BASE_URL | no | http://ollama:11434 | Ollama endpoint |
 | ANTHROPIC_API_KEY | conditional | empty | Required when using Claude |
-| WHISPER_MODEL | no | small | Reserved for Phase 1 |
+| WHISPER_MODEL | no | small | WhisperX model name |
+| MIN_AUDIO_MS | no | 300 | Minimum allowed clip duration |
+| MAX_AUDIO_MS | no | 30000 | Maximum allowed clip duration |
+| PAUSE_THRESHOLD_MS | no | 700 | Pause threshold for fluency detection |
 | DATABASE_URL | no | sqlite:///data/polyglot.db | SQLite connection string |
 | DEMO_MODE | no | false | Reserved for Phase 5 demo seeding |
 
@@ -83,6 +87,26 @@ Set LLM_PROVIDER to ollama or claude in .env. Model selection is controlled by L
 ## CPU-only hosts
 
 Use docker-compose.cpu.yml override to remove GPU reservations and force DEVICE=cpu.
+
+## Analyze endpoint
+
+Phase 1 introduces `POST /analyze` for deterministic speech analysis.
+
+Example:
+
+```bash
+curl -F "audio=@my_clip.wav" \
+    -F "target_sentence=Ich wohne in Hamburg" \
+    -F "language=de-DE" \
+    http://localhost:8000/analyze
+```
+
+Response shape is schema-versioned and includes:
+
+- `target`, `language`, `transcribed`
+- `word_alignment` with optional phoneme error details
+- `fluency` timing features
+- `overall` objective scores
 
 ## Development
 
