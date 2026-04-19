@@ -68,8 +68,10 @@ Fixture: `tests/fixtures/de/de_04_umlaut.wav`
 
 Alignment result:
 
-- Score: `16.0`
-- Representative operations:
+- Target vs transcript anchors for visibility:
+	- `möchte` -> `muss dir`
+	- `Käse` -> `Kase`
+- Representative phoneme operations:
 	- `oe -> u` (substitute)
 	- `ich -> sh` (substitute)
 	- `e -> a` around `Käse` (substitute)
@@ -77,9 +79,9 @@ Alignment result:
 
 Final report snapshot:
 
-- `overall.word_error_rate = 0.6`
-- `overall.phoneme_error_rate = 0.4783`
-- `overall.intelligibility_score = 0.4487`
+- `overall.word_error_rate = 0.4`
+- `overall.phoneme_error_rate = 0.3478`
+- `overall.intelligibility_score = 0.6209`
 
 Interpretation:
 

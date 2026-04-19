@@ -80,3 +80,14 @@ Interpretation:
 
 - The unknown-token cleanup removed synthetic `?` tokens from expected streams (goal achieved).
 - PER did not improve in this isolated step and slightly increased, indicating residual mismatch is dominated by alignment/metric behavior and/or upstream transcript/phoneme variance rather than unmapped-symbol inflation alone.
+
+## de_03 Target Corruption Postmortem
+
+The prior `de_03` run that showed target text like `Rote Rosen` was not caused by normalization or canonicalization mutating the target sentence.
+
+Root cause: the run was fed by a stale legacy fixture target source (old golden/integration matrix), where the German phoneme-substitution case still used `Rote Rosen`. The authoritative fixture contract (`tests/fixtures/README.md`) defines `de_03` target as `Ich wohne seit drei Jahren in Hamburg.`
+
+Action taken:
+
+- Added a normalization guard test in commit `c2845f2` to protect the expected `de_03` prefix path.
+- Continued all fixture diagnostics/runs against the authoritative README matrix.

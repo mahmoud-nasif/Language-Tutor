@@ -28,6 +28,7 @@ dependencies = [
   "whisperx==3.3.1",
   "faster-whisper==1.1.0",
   "transformers==4.44.2",
+  "silero-vad~=5.1.2",
   "setuptools>=70.0.0,<81.0.0",
 ]
 

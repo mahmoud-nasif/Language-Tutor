@@ -957,7 +957,7 @@
   },
   {
     "fixture_id": "de_05_pause",
-    "target": "Ich wohne seit drei Jahren in Hamburg.",
+    "target": "Ich wohne seit drei Jahren in Hamburg",
     "transcribed": "Ich wohne seit drei Jahren in Hamburg.",
     "wer": 0.0,
     "per": 0.1667,
@@ -966,7 +966,9 @@
     "fluency": {
       "duration_ms": 5380,
       "speech_rate_wpm": 78.07,
-      "long_pauses_ms": [],
+      "long_pauses_ms": [
+        1092
+      ],
       "filler_count": 0
     },
     "overall": {

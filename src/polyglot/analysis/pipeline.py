@@ -58,6 +58,8 @@ class AnalysisPipeline:
             duration_ms=audio.duration_ms,
             language=language,
             pause_threshold_ms=pause_threshold_ms,
+            audio_pcm16khz_mono=audio.pcm16khz_mono,
+            sample_rate=audio.sample_rate,
         )
 
         return build_report(
